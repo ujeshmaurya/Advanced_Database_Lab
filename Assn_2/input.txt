@@ -1,0 +1,6 @@
+select * from ujesh
+select age from ujesh
+select age, amount from student join bank on student.id = bank.id
+select a, b from bank join bus on bus.id=bank.id join truck on truck.id = bus.id
+select age, height, loan , max(credit), count(debit) from ujesh join transaction on name = umaurya join class on std = tenth group by age order by height
+select * from a, b, c, d

@@ -1,0 +1,7 @@
+r-1(a) r-2(a) r-1(b) w-2(a) w-1(a) w-2(b)
+R-1(X) R-1(Y) R-2(X) R-2(Y) W-2(Y) W-1(X)
+R-1(X) R-2(X) R-2(Y) W-2(Y) R-1(Y) W-1(X)
+r-1(Q) w-2(Q) w-1(Q) w-3(Q)
+r-1(Q) w-1(Q) w-2(Q) w-3(Q)
+r-1(Q) w-2(Q) r-3(Q) w-1(Q)
+w-1(P) r-2(P) r-2(Q) w-3(Q) r-4(Q) w-2(Q)

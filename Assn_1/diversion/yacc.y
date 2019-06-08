@@ -1,0 +1,83 @@
+%{
+#include <stdio.h>
+#include <alloca.h>
+#include <math.h>
+#include <stdlib.h>
+#include <stddef.h>
+#include <ctype.h>
+#define YYSTYPE double
+void yyerror (const char *str) {
+	fprintf(stderr, "error: %s\n", str);
+}
+int yylex();
+int yywrap() {
+	return 1;
+}
+
+void main()
+{
+  yyparse();
+}
+
+%}
+
+%%
+
+%token SELECT FROM SUM COUNT MAX MIN AVG AS WHERE NOT AND OR COMPARISON IDENTIFIER BETWEEN LIKE IN EXISTS ANY ALL SOME OPENBRACKET CLOSEBRACKET
+	   ORDER BY ASC DESC DIGIT LIMIT OFFSET GROUP;
+
+line : Query '\n' { printf("Syntax Correct\n"); };
+
+Query : SELECT select_expr FROM table_list where_list groupby_list orderby_list limit_list ;
+
+select_expr : '*' | attribute_name ;
+
+attribute_name : Attribute ',' attribute_name  | Attribute  | attribute_name_alias
+				 | SUM OPENBRACKET Attribute CLOSEBRACKET AS AliasName | SUM OPENBRACKET Attribute CLOSEBRACKET 
+				 | SUM OPENBRACKET Attribute CLOSEBRACKET AS AliasName ',' attribute_name| SUM OPENBRACKET Attribute CLOSEBRACKET ',' attribute_name
+				 | COUNT OPENBRACKET Attribute CLOSEBRACKET AS AliasName | COUNT OPENBRACKET Attribute CLOSEBRACKET
+				 | COUNT OPENBRACKET Attribute CLOSEBRACKET AS AliasName ',' attribute_name | COUNT OPENBRACKET Attribute CLOSEBRACKET ',' attribute_name 
+				 | MAX OPENBRACKET Attribute CLOSEBRACKET AS AliasName | MAX OPENBRACKET Attribute CLOSEBRACKET 
+				 | MAX OPENBRACKET Attribute CLOSEBRACKET AS AliasName ',' attribute_name | MAX OPENBRACKET Attribute CLOSEBRACKET ',' attribute_name 
+				 | MIN OPENBRACKET Attribute CLOSEBRACKET AS AliasName | MIN OPENBRACKET Attribute CLOSEBRACKET
+				 | MIN OPENBRACKET Attribute CLOSEBRACKET AS AliasName ',' attribute_name| MIN OPENBRACKET Attribute CLOSEBRACKET ',' attribute_name 
+				 | AVG OPENBRACKET Attribute CLOSEBRACKET AS AliasName | AVG OPENBRACKET Attribute CLOSEBRACKET
+				 | AVG OPENBRACKET Attribute CLOSEBRACKET AS AliasName ',' attribute_name | AVG OPENBRACKET Attribute CLOSEBRACKET ',' attribute_name ;
+
+attribute_name_alias : Attribute AS AliasName | Attribute AS AliasName ',' attribute_name;
+
+table_list : TableName ',' table_list | TableName ; 
+
+where_list : WHERE condition_hint | WHERE NOT condition_hint | ;
+
+condition_hint : condition_list AND condition_hint | condition_list OR condition_hint | condition_list;
+
+condition_list : Attribute COMPARISON IDENTIFIER | Attribute BETWEEN IDENTIFIER AND IDENTIFIER | OPENBRACKET Attribute BETWEEN IDENTIFIER AND IDENTIFIER CLOSEBRACKET | Attribute LIKE Pattern;
+
+condition_list : Attribute IN OPENBRACKET attribute_list CLOSEBRACKET | Attribute NOT IN OPENBRACKET attribute_list CLOSEBRACKET | Attribute IN OPENBRACKET Query CLOSEBRACKET 
+				| Attribute NOT IN OPENBRACKET Query CLOSEBRACKET | EXISTS OPENBRACKET Query CLOSEBRACKET ;
+
+attribute_list : Attribute ','attribute_list | Attribute ;
+
+condition_list : Attribute COMPARISON OPENBRACKET Query CLOSEBRACKET | Attribute COMPARISON ANY OPENBRACKET Query CLOSEBRACKET | Attribute COMPARISON SOME OPENBRACKET Query CLOSEBRACKET
+				 | Attribute COMPARISON ALL OPENBRACKET Query CLOSEBRACKET ;
+				 
+orderby_list : ORDER BY order_expr | ;
+
+order_expr : Attribute ',' order_expr | Attribute ASC | Attribute DESC
+			 |Attribute ASC ',' order_expr | Attribute DESC ',' order_expr ;
+			 
+limit_list : LIMIT limit_expr | ;
+
+limit_expr : DIGIT | DIGIT OFFSET DIGIT ; 
+
+groupby_list : GROUP BY groupby_expr | ;
+
+groupby_expr : Attribute ',' groupby_expr | Attribute ;
+
+Pattern	  : IDENTIFIER ;
+TableName : IDENTIFIER ;
+AliasName : IDENTIFIER ;
+Attribute : IDENTIFIER ;				 
+
+%%

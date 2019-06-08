@@ -1,0 +1,15 @@
+PROBLEM:
+Given a SQL Query (comprising only of select statement with all kind of variations), your task is to build a parse tree for that query if the query is legal otherwise print some error message.
+
+SOLUTION:
+Step 1: Write a custom grammar for Select statement in SQL. The grammar should not be ambiguous and it cannot be left recursive.
+	Progress:---work in progress---
+	Issues: matched string constants to be in quotes(inverted commas)
+		numeric constants should be allowed
+		
+
+Step 2: Build a Parser that can parse a string of input according to a grammar, both fed at runtime.
+	Progress: ---DONE--- using LEX and BISON
+
+Step 3: Make a front end which can visualize the parse tree according to grammar.
+	Progress: HINT: Use graphviz in pypy.

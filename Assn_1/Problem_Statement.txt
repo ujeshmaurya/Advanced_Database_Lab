@@ -1,0 +1,39 @@
+PROBLEM:
+Given a SQL Query (comprising only of select statement with all kind of variations), your task is to build a parse tree for that query
+if the query is legal otherwise print some error message.
+
+SOLUTION:
+Step 1: Write a custom grammar for Select statement in SQL. The grammar should not be ambiguous and it cannot be left recursive(if LL-1).
+	Progress: grammar written		[done]
+		  nested queries		[done]
+		  AGG functions			[done]
+		  Group by clause		[done]
+		  Having Clause			[done]
+		  order by Clause		[done]
+		  Join tables			[done]
+		  Aliasing			[done]
+		  RHS values in quotes		[done]
+		  Some terminals not defined	[done]
+		  decimal values REGEX		[done]
+		  M
+		  ---issue---	{Time insufficient for further implementation}
+			
+
+Step 2: Build a Parser that can parse a string of input according to a grammar, both fed at runtime.
+	Progress: ---issue---	{which tool to use for parser} : Hint:Stackoverflow
+				{Use Lex-Yacc in C} : No front End to draw tree
+				{Use PLY in python} : Tedious to use [EDIT{March 4, 2019}:Better to do this and create png using pydotplus]
+				{Use RecursiveDescentParser library} : Grammar format fails
+				{Use NLTK library} : Grammar format fails
+				{Use Lark in python and Graphviz, PyDot etc to draw the Di-Graph} : Successfully installed
+		---resolved---
+		  ---DONE---	{using LARK library in python; just like lex-yacc}
+
+Step 3: Make a front end which can visualize the parse tree according to grammar.
+	Progress: HINT: Use graphviz in pypy.
+		  ---issue---	{PyDot not working on windows}
+				{using Google Colab}
+				{installed graphviz manually, set environment variables for DOT executable}
+		---resolved---
+		  ---DONE---	{using Graphviz, PyDot and Lark integration into PyDot}
+		  

@@ -1,0 +1,15 @@
+SELECT student.studentID , placement.companyID , placement.package FROM student INNER JOIN placement ON student.studentID = placement.studentID WHERE placement.package >= 8 GROUP BY placement.companyID ORDER BY placement.package DESC LIMIT 4 OFFSET 2
+SELECT * FROM student
+SELECT * FROM placement WHERE package <= 8 AND companyrating >= 5
+SELECT * FROM Products WHERE ProductPrice BETWEEN 19000 AND 20000 ORDER BY ProductPrice
+SELECT * FROM Products WHERE ProductPrice BETWEEN 19000 AND 20000 ORDER BY ProductPrice DESC
+SELECT * FROM Customers WHERE Name LIKE %h__erb%
+SELECT Item AS itemdescription FROM Orders
+SELECT Item FROM Orders WHERE id = ALL ( SELECT ID FROM Orders WHERE quantity > 50 )
+SELECT Name FROM Customers WHERE EXISTS ( SELECT Item FROM Orders WHERE Customers.ID = Orders.ID AND Price < 50 )
+SELECT COUNT(ID), Region FROM Customers GROUP BY Region HAVING COUNT(ID) > 0
+SELECT DISTINCT custid FROM Customers
+SELECT SUM(Quantity) FROM OrderDetails
+SELECT AVG(marks), AVG(attendance) FROM studentRecord WHERE cgpa >= 8.0
+SELECT names FROM student WHERE surname = "singh"
+SELECT names FROM student WHERE surname = "version4.6.7@#"
