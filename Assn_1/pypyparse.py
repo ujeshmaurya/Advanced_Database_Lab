@@ -1,6 +1,6 @@
 from lark import Lark
 from lark.tree import pydot__tree_to_png as printTree
-#import grammar from the grammar File
+#import grammar from the grammar File #seriously
 from grammarFile import grammar
 
 #Create a LALR Parser
